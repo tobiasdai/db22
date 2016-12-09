@@ -24,10 +24,13 @@ public class Movie {
 	private String type;
 
 	@ManyToMany()
-	@JoinTable(name = "MOVIE_GENRE")
+	@JoinTable(name = "MOVIE_GENRE",
+			joinColumns = @JoinColumn(name = "MOVIE_ID"),
+			inverseJoinColumns = @JoinColumn(name = "GENRE_ID")
+	)
 	private Set<Genre> genres = new HashSet<Genre>();
 
-	@OneToMany(mappedBy = "movie")
+	@OneToMany(mappedBy = "movie", cascade = CascadeType.REMOVE)
 	private Set<MovieCharacter> characters = new HashSet<MovieCharacter>();
 
 	public Long getId() {

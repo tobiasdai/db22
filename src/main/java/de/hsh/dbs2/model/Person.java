@@ -19,7 +19,7 @@ public class Person {
 	@Column(nullable = false)
 	private String sex;
 
-	@OneToMany(mappedBy = "person")
+	@OneToMany(mappedBy = "person", cascade = CascadeType.REMOVE)
 	private Set<MovieCharacter> characters = new HashSet<MovieCharacter>();
 
 	public Long getId() {
