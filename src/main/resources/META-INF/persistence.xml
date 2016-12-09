@@ -4,15 +4,15 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
  http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
              version="2.0">
-    <persistence-unit name="team">
+    <persistence-unit name="moviedb">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <properties>
             <property name="hibernate.connection.driver_class"
                       value="oracle.jdbc.driver.OracleDriver" />
             <property name="hibernate.connection.url"
-                      value="jdbc:oracle:thin:@localhost:1521/orcl" />
-            <property name="hibernate.connection.username" value="felix" />
-            <property name="hibernate.connection.password" value="felix" />
+                      value="jdbc:oracle:thin:@localhost:1521/db01" />
+            <property name="hibernate.connection.username" value="user" />
+            <property name="hibernate.connection.password" value="pwd" />
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.hbm2ddl.auto" value="update" />
         </properties>
