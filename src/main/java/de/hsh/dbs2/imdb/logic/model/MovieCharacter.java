@@ -1,4 +1,4 @@
-package de.hsh.dbs2.model;
+package de.hsh.dbs2.imdb.logic.model;
 
 import javax.persistence.*;
 

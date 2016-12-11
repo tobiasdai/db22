@@ -1,8 +1,8 @@
-package de.hsh.dbs2.model;
+package de.hsh.dbs2.imdb.logic.model;
 
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "N_GENRE")
@@ -41,5 +41,10 @@ public class Genre {
 
 	public void setMovies(Set<Movie> movies) {
 		this.movies = movies;
+	}
+
+	@Override
+	public String toString() {
+		return genre;
 	}
 }

@@ -1,8 +1,8 @@
-package de.hsh.dbs2.model;
+package de.hsh.dbs2.imdb.logic.model;
 
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "N_PERSON")
@@ -52,5 +52,10 @@ public class Person {
 
 	public void setCharacters(Set<MovieCharacter> characters) {
 		this.characters = characters;
+	}
+
+	@Override
+	public String toString() {
+		return name;
 	}
 }

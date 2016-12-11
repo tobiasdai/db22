@@ -1,9 +1,8 @@
-package de.hsh.dbs2.model;
+package de.hsh.dbs2.imdb.logic.model;
 
-
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "N_MOVIE")
@@ -23,14 +22,14 @@ public class Movie {
 	@Column(nullable = false)
 	private String type;
 
-	@ManyToMany()
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "MOVIE_GENRE",
 			joinColumns = @JoinColumn(name = "MOVIE_ID"),
 			inverseJoinColumns = @JoinColumn(name = "GENRE_ID")
 	)
 	private Set<Genre> genres = new HashSet<Genre>();
 
-	@OneToMany(mappedBy = "movie", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "movie", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	private Set<MovieCharacter> characters = new HashSet<MovieCharacter>();
 
 	public Long getId() {
