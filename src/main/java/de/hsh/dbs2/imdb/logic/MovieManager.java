@@ -1,8 +1,6 @@
 package de.hsh.dbs2.imdb.logic;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import de.hsh.dbs2.imdb.logic.dto.CharacterDTO;
 import de.hsh.dbs2.imdb.logic.dto.MovieDTO;
@@ -47,7 +45,7 @@ public class MovieManager {
 	 * Dazu werden die Daten des Films selbst (Titel, Jahr, Typ) beruecksichtigt,
 	 * aber auch alle Genres, die dem Film zugeordnet sind und die Liste der Charaktere
 	 * auf den neuen Stand gebracht.
-	 * @param movie Film-Objekt mit Genres und Charakteren.
+	 * @param movieDTO Film-Objekt mit Genres und Charakteren.
 	 * @throws Exception
 	 */
 	public void insertUpdateMovie(MovieDTO movieDTO) throws Exception {
@@ -71,10 +69,12 @@ public class MovieManager {
 
 		CharacterFactory.delete(movie.getId());
 		List<CharacterDTO> characterDTOs = movieDTO.getCharacters();
+		int index = 1;
 		for (CharacterDTO cDto : characterDTOs) {
 			MovieCharacter character = new MovieCharacter();
 			character.setCharacter(cDto.getCharacter());
 			character.setAlias(cDto.getAlias());
+			character.setPosition(index++);
 			character.setMovie(movie);
 			character.setPerson(PersonFactory.findByName(cDto.getPlayer()).get(0));
 			CharacterFactory.add(character);
@@ -86,7 +86,7 @@ public class MovieManager {
 	/**
 	 * Loescht einen Film aus der Datenbank. Es werden auch alle abhaengigen Objekte geloescht,
 	 * d.h. alle Charaktere und alle Genre-Zuordnungen.
-	 * @param movie
+	 * @param movieId
 	 * @throws Exception
 	 */
 	public void deleteMovie(long movieId) throws Exception {
@@ -107,12 +107,17 @@ public class MovieManager {
 			movieDTO.addGenre(genre.toString());
 		}
 
-		for (MovieCharacter character : movie.getCharacters()) {
+		// sort characterlist nach pos
+		Set<MovieCharacter> characters = movie.getCharacters();
+		int size = characters.size();
+		MovieCharacter [] chs = new MovieCharacter[size];
+		Arrays.sort(characters.toArray(chs), (o1, o2) -> o1.getPosition() - o2.getPosition());
+
+		for (MovieCharacter character : chs) {
 			CharacterDTO characterDTO = new CharacterDTO();
 			characterDTO.setCharacter(character.getCharacter());
 			characterDTO.setAlias(character.getAlias());
 			characterDTO.setPlayer(character.getPerson().toString());
-
 			movieDTO.addCharacter(characterDTO);
 		}
 

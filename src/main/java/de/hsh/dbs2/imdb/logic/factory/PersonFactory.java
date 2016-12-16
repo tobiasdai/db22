@@ -14,18 +14,20 @@ public class PersonFactory{
 	
     public static List<Person> findByName(String name) throws SQLException {
 		EntityManager em = EntityManagerUtil.getEmf().createEntityManager();
-		List persons = em.createQuery("select p from Person p " +
-				"where p.name like :name")
-				.setParameter("name", "%" + name + "%")
-				.getResultList();
-		em.close();
+		List persons;
+		try {
+			em.getTransaction().begin();
+			persons = em.createQuery("select p from Person p " +
+					"where upper(p.name) like upper(:name)")
+					.setParameter("name", "%" + name + "%")
+					.getResultList();
+			em.getTransaction().commit();
+		} finally {
+			if (em.getTransaction().isActive())
+				em.getTransaction().rollback();
+			em.close();
+		}
+
 		return (List<Person>) persons;
     }
-    
-    public static Person findById(long id) throws SQLException {
-		EntityManager em = EntityManagerUtil.getEmf().createEntityManager();
-		Person person = em.find(Person.class, id);
-		em.close();
-		return person;
-	}
 }

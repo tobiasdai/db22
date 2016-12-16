@@ -11,25 +11,35 @@ public class GenreFactory {
 
 	public static List<String> getAllGenres() throws SQLException {
 		EntityManager em = EntityManagerUtil.getEmf().createEntityManager();
-		List genres = em.createQuery("select g.genre from Genre g").getResultList();
-		em.close();
+		List genres;
+		try {
+			em.getTransaction().begin();
+			genres = em.createQuery("select g.genre from Genre g").getResultList();
+			em.getTransaction().commit();
+		} finally {
+			if (em.getTransaction().isActive())
+				em.getTransaction().rollback();
+			em.close();
+		}
+
 		return (List<String>) genres;
-	}
-	
-	public static Genre getGenre(long id) throws SQLException {
-		EntityManager em = EntityManagerUtil.getEmf().createEntityManager();
-		Genre genre = em.find(Genre.class, id);
-		em.close();
-		return genre;
 	}
 	
 	public static Genre find(String genre) throws SQLException {
 		EntityManager em = EntityManagerUtil.getEmf().createEntityManager();
-		Genre g = (Genre) em.createQuery("select g from Genre g " +
-				"where g.genre = :genre")
-				.setParameter("genre", genre)
-				.getSingleResult();
-		em.close();
+		Genre g;
+		try {
+			em.getTransaction().begin();
+			g = (Genre) em.createQuery("select g from Genre g " +
+					"where g.genre = :genre")
+					.setParameter("genre", genre)
+					.getSingleResult();
+			em.getTransaction().commit();
+		} finally {
+			if (em.getTransaction().isActive())
+				em.getTransaction().rollback();
+			em.close();
+		}
 		return g;
 	}
 	
