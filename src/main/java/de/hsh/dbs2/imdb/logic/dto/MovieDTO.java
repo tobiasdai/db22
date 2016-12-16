@@ -16,6 +16,7 @@ import java.util.Set;
 public class MovieDTO {
 
 	private Long id = null;
+	private Integer version = 1;
 	private String title = "";
 	private String type = "C";
 	private int year = 0;
@@ -46,7 +47,15 @@ public class MovieDTO {
 	public void setYear(int year) {
 		this.year = year;
 	}
-	
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+
 	public void addGenre(String genre) {
 		genres.add(genre);
 	}

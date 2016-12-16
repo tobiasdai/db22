@@ -53,6 +53,7 @@ public class MovieManager {
 		movie.setTitle(movieDTO.getTitle());
 		movie.setYear(movieDTO.getYear());
 		movie.setType(movieDTO.getType());
+		movie.setVersion(movieDTO.getVersion());
 
 		if (movieDTO.getId() == null) {
 			movie = MovieFactory.add(movie);
@@ -60,7 +61,7 @@ public class MovieManager {
 			movie.setId(movieDTO.getId());
 		}
 
-		MovieFactory.clearGenre(movie);
+		movie.getGenres().clear();
 		Set<String> genres = movieDTO.getGenres();
 		for (String s : genres) {
 			Genre genre = GenreFactory.find(s);
@@ -102,6 +103,7 @@ public class MovieManager {
 		movieDTO.setTitle(movie.getTitle());
 		movieDTO.setType(movie.getType());
 		movieDTO.setYear(movie.getYear());
+		movieDTO.setVersion(movie.getVersion());
 
 		for (Genre genre : movie.getGenres()) {
 			movieDTO.addGenre(genre.toString());

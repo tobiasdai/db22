@@ -76,25 +76,7 @@ public class MovieFactory {
 		EntityManager em = EntityManagerUtil.getEmf().createEntityManager();
 		try {
 			em.getTransaction().begin();
-			Movie movie = em.find(Movie.class, m.getId());
-			movie.setTitle(m.getTitle());
-			movie.setYear(m.getYear());
-			movie.setType(m.getType());
-			movie.setGenres(m.getGenres());
-			em.getTransaction().commit();
-		} finally {
-			if (em.getTransaction().isActive())
-				em.getTransaction().rollback();
-			em.close();
-		}
-	}
-
-	public static void clearGenre(Movie m) throws SQLException {
-		EntityManager em = EntityManagerUtil.getEmf().createEntityManager();
-		try {
-			em.getTransaction().begin();
-			Movie movie = em.find(Movie.class, m.getId());
-			movie.getGenres().clear();
+			em.merge(m);
 			em.getTransaction().commit();
 		} finally {
 			if (em.getTransaction().isActive())

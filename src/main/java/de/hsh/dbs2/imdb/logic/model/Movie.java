@@ -13,6 +13,10 @@ public class Movie {
 	@GeneratedValue
 	private Long id;
 
+	@Version
+	@Column(name = "VERSION")
+	private Integer version = 1;
+
 	@Column(nullable = false)
 	private String title;
 
@@ -78,5 +82,13 @@ public class Movie {
 
 	public void setCharacters(Set<MovieCharacter> characters) {
 		this.characters = characters;
+	}
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
 	}
 }
