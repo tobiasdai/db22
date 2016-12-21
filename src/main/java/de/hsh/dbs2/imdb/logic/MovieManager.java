@@ -110,12 +110,10 @@ public class MovieManager {
 		}
 
 		// sort characterlist nach pos
-		Set<MovieCharacter> characters = movie.getCharacters();
-		int size = characters.size();
-		MovieCharacter [] chs = new MovieCharacter[size];
-		Arrays.sort(characters.toArray(chs), (o1, o2) -> o1.getPosition() - o2.getPosition());
+		List<MovieCharacter> characters = new ArrayList<>(movie.getCharacters());
+		Collections.sort(characters, (o1, o2) -> o1.getPosition() - o2.getPosition());
 
-		for (MovieCharacter character : chs) {
+		for (MovieCharacter character : characters) {
 			CharacterDTO characterDTO = new CharacterDTO();
 			characterDTO.setCharacter(character.getCharacter());
 			characterDTO.setAlias(character.getAlias());
